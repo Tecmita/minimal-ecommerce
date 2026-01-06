@@ -8,7 +8,6 @@ const ProductButtons = ({ category, setCategory, categories }) => {
 
   return (
     <div className="mb-6">
-      {/* Botón para mostrar/ocultar categorías */}
       <button
         onClick={handleToggle}
         className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
@@ -16,7 +15,7 @@ const ProductButtons = ({ category, setCategory, categories }) => {
         {open ? "Ocultar categorías" : "Ver categorías"}
       </button>
 
-      {/* Lista de categorías de cat open = true */}
+      {/* Lista cat open = true */}
       {open && (
         <div className="flex gap-2 flex-wrap mt-2">
           {categories.map((cat) => (
