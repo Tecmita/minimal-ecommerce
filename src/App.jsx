@@ -1,56 +1,21 @@
-import { useState, useEffect } from "react";
-import ProductCard from "./components/ProductCard";
-import { useProducts } from "./hooks/useProducts";
-import Pagination from "./components/Pagination";
-import { useIsMobile } from "./hooks/useIsMobile";
-import ProductFilter from "./components/ProductFilter";
-import { useProductFilter } from "./hooks/useProductFilter";
-import ProductButton from "./components/ProductButtons";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router";
+import ProductsPage from "./pages/ProductsPage";
+import { CartProvider } from "./context/CartContext.jsx";
+import ProductPage from "./pages//ProductPage";
+import CartPage from "./pages/CartPage.jsx";
 
 function App() {
-  const isMobile = useIsMobile();
-
-  const {
-    products,
-    error: productError,
-    loading: loadingProduct,
-    limit,
-    setPage,
-    page,
-    total,
-  } = useProducts(isMobile);
-
-  const {
-    search,
-    setSearch,
-    category,
-    setCategory,
-    filteredProducts,
-    categories,
-  } = useProductFilter(products);
-
-  if (productError) return <h2>{productError}</h2>;
-
   return (
-    <>
-      <ProductButton
-        search={search}
-        setSearch={setSearch}
-        category={category}
-        setCategory={setCategory}
-        categories={categories}
-      />
-      <ProductFilter search={search} setSearch={setSearch} />
-      <ProductCard products={filteredProducts} loading={loadingProduct} />
-      {!isMobile && (
-        <Pagination
-          page={page}
-          total={total}
-          limit={limit}
-          onPageChange={setPage}
-        />
-      )}
-    </>
+    <CartProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Navigate to="/products" />} />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/products/:id" element={<ProductPage />}></Route>
+          <Route path="/cart" element={<CartPage />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </CartProvider>
   );
 }
 

@@ -1,5 +1,6 @@
 import ProductCardSkeleton from "./ProductCardSkeleton";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const ProductCard = ({ products, loading }) => {
   return (
@@ -11,7 +12,8 @@ const ProductCard = ({ products, loading }) => {
                 <ProductCardSkeleton key={i} />
               ))
             : products.map((product) => (
-                <article
+                <Link
+                  to={`/products/${product.id}`}
                   key={product.id}
                   className="flex flex-col transition-transform duration-300 ease-out hover:scale-[1.03] hover:cursor-pointer"
                 >
@@ -36,7 +38,7 @@ const ProductCard = ({ products, loading }) => {
                       </p>
                     </div>
                   </div>
-                </article>
+                </Link>
               ))}
         </div>
       </div>
