@@ -1,14 +1,15 @@
-import ProductCard from "../components/ProductCard";
+import ProductCard from "../components/product/ProductCard";
 import Pagination from "../components/Pagination";
-import ProductFilter from "../components/ProductFilter";
-import ProductButton from "../components/ProductButtons";
-
 import { useProducts } from "../hooks/useProducts";
 import { useIsMobile } from "../hooks/useIsMobile";
 import { useProductFilter } from "../hooks/useProductFilter";
+import ProductHeader from "../components/product/ProductHeader";
+import { useSearch } from "../context/SearchContext";
 
 function ProductsPage() {
   const isMobile = useIsMobile();
+
+  const { search } = useSearch();
 
   const {
     products,
@@ -20,27 +21,14 @@ function ProductsPage() {
     total,
   } = useProducts(isMobile);
 
-  const {
-    search,
-    setSearch,
-    category,
-    setCategory,
-    filteredProducts,
-    categories,
-  } = useProductFilter(products);
+  const { category, filteredProducts } = useProductFilter(products, search);
 
   if (productError) return <h2>{productError}</h2>;
 
   return (
     <>
-      <ProductButton
-        search={search}
-        setSearch={setSearch}
-        category={category}
-        setCategory={setCategory}
-        categories={categories}
-      />
-      <ProductFilter search={search} setSearch={setSearch} />
+      <ProductHeader category={category || "Todos"} />
+
       <ProductCard products={filteredProducts} loading={loadingProduct} />
       {!isMobile && (
         <Pagination

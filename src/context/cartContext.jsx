@@ -24,6 +24,25 @@ export const CartProvider = ({ children }) => {
   const removeFromCart = (productId) => {
     setCartItems((prev) => prev.filter((item) => item.id !== productId));
   };
+  const deductFromCart = (productId) => {
+    setCartItems((prev) => {
+      const existing = prev.find((item) => item.id === productId);
+      if (!existing) {
+        return prev;
+      }
+      if (existing.quantity === 1) {
+        return prev.filter((item) => item.id !== productId);
+      }
+      return prev.map((item) =>
+        item.id === productId ? { ...item, quantity: item.quantity - 1 } : item
+      );
+    });
+  };
+
+  const totalPrice = cartItems.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
 
   const clearCart = () => setCartItems([]);
 
@@ -31,7 +50,15 @@ export const CartProvider = ({ children }) => {
 
   return (
     <CartContext.Provider
-      value={{ addToCart, removeFromCart, clearCart, totalItems, cartItems }}
+      value={{
+        addToCart,
+        removeFromCart,
+        clearCart,
+        totalItems,
+        cartItems,
+        deductFromCart,
+        totalPrice,
+      }}
     >
       {children}
     </CartContext.Provider>

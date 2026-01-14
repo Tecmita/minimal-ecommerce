@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const ProductButtons = ({ category, setCategory, categories }) => {
+const ProductButtonFilter = ({ category, setCategory, categories }) => {
   const [open, setOpen] = useState(false);
   const handleToggle = () => {
     setOpen(!open);
@@ -8,20 +8,24 @@ const ProductButtons = ({ category, setCategory, categories }) => {
 
   return (
     <div className="mb-6">
-      <button
-        onClick={handleToggle}
-        className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
-      >
-        {open ? "Ocultar categorías" : "Ver categorías"}
-      </button>
+      <div className="flex justify-center items-center mt-2">
+        <div className="">
+          <button
+            onClick={handleToggle}
+            className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
+          >
+            {open ? "X" : "Category"}
+          </button>
+        </div>
+      </div>
 
       {/* Lista cat open = true */}
       {open && (
-        <div className="flex gap-2 flex-wrap mt-2">
+        <div className="flex gap-2 flex-col mt-2 items-center  ">
           {categories.map((cat) => (
             <button
               key={cat}
-              className={`px-4 py-2 rounded ${
+              className={`min-w-[12rem] px-4 py-2 rounded ${
                 category === cat ? "bg-blue-500 text-white" : "bg-gray-200"
               }`}
               onClick={() => setCategory(cat)}
@@ -35,4 +39,4 @@ const ProductButtons = ({ category, setCategory, categories }) => {
   );
 };
 
-export default ProductButtons;
+export default ProductButtonFilter;
