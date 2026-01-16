@@ -5,6 +5,7 @@ const LIMIT = 8;
 
 export const useProducts = (isMobile) => {
   const [products, setProducts] = useState([]);
+  const [allProductsForCategories, setAllProductsForCategories] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -25,6 +26,11 @@ export const useProducts = (isMobile) => {
 
         const loaded = skip + data.products.length;
         setHasMore(loaded < data.total);
+
+        if (page === 1) {
+          const fullData = await getProducts({ limit: 1000, skip: 0 });
+          setAllProductsForCategories(fullData.products);
+        }
       } catch (err) {
         setError(err.message);
       } finally {
@@ -33,23 +39,10 @@ export const useProducts = (isMobile) => {
     };
     loadProducts();
   }, [page, isMobile]);
-  useEffect(() => {
-    if (!isMobile || !hasMore || loading) return;
 
-    const onScroll = () => {
-      const nearBottom =
-        window.innerHeight + window.scrollY >= document.body.offsetHeight - 200;
-
-      if (nearBottom) {
-        setPage((prev) => prev + 1);
-      }
-    };
-
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [isMobile, hasMore, loading]);
   return {
     products,
+    allProductsForCategories,
     error,
     loading,
     page,

@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { MagnifyingGlass } from "phosphor-react";
 
 const SearchFilter = ({ open, setOpen }) => {

@@ -15,3 +15,10 @@ export const getProductsbyId = async (id, signal) => {
   }
   return res.json();
 };
+export const getProductsByCategory = async (category) => {
+  const res = await fetch(
+    `https://dummyjson.com/products/category/${category}`
+  );
+  if (!res.ok) throw new Error("Error al traer productos");
+  return res.json();
+};

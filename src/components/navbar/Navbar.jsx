@@ -7,6 +7,7 @@ import {
   ShoppingCartSimple,
 } from "phosphor-react";
 import NavItems from "./NavItems";
+import SearchPage from "../../pages/SearchPage";
 
 const Navbar = () => {
   return (
@@ -18,7 +19,7 @@ const Navbar = () => {
             to="/search"
             icon={MagnifyingGlass}
             label="Search"
-            element=""
+            element={<SearchPage />}
           />
           <NavItems to="/cart" icon={ShoppingCartSimple} label="Cart" />
         </ul>
